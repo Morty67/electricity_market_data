@@ -20,7 +20,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-p_%g%h@)q_@+^zt25f-j*64^)j&ukk1sfuz)==mzkp(i_xyo#%"
+SECRET_KEY = (
+    "django-insecure-p_%g%h@)q_@+^zt25f-j*64^)j&ukk1sfuz)==mzkp(i_xyo#%"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -56,8 +58,7 @@ ROOT_URLCONF = "electricity_market_data.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates']
-        ,
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

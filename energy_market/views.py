@@ -10,7 +10,9 @@ class MarketClosingDataView(views.APIView):
         try:
             market_data = MarketClosingData.objects.filter(date=date)
             if market_data.exists():
-                serializer = MarketClosingDataSerializer(market_data, many=True)
+                serializer = MarketClosingDataSerializer(
+                    market_data, many=True
+                )
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(

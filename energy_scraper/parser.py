@@ -11,6 +11,7 @@ import django
 os.environ.setdefault(
     "DJANGO_SETTINGS_MODULE", "electricity_market_data.settings"
 )
+
 django.setup()
 
 from energy_market.models import MarketClosingData
@@ -49,17 +50,26 @@ def save_data_to_database(data, date):
 
 
 def run_parser():
-    DATE = (datetime.now().date() + timedelta(days=1)).strftime("%d.%m.%Y")
-    URL = f"https://www.oree.com.ua/index.php/PXS/get_pxs_hdata/{DATE}/DAM/2"
+    current_time = datetime.now().time()
+    target_time = datetime.strptime("14:30", "%H:%M").time()
+    target_date = (datetime.now() + timedelta(days=1)).date()
+    date = target_date.strftime("%d.%m.%Y")
+    if datetime.combine(target_date, current_time) < datetime.combine(
+        target_date, target_time
+    ):
+        print(f"Information for this day {date} is currently unavailable.")
+        return
 
-    html_content = get_html_content(URL)
+    url = f"https://www.oree.com.ua/index.php/PXS/get_pxs_hdata/{date}/DAM/2"
+    print(f"Parsing data for {date}...")
+    html_content = get_html_content(url)
     data = parse_electricity_data(html_content)
-    date = datetime.strptime(DATE, "%d.%m.%Y").date()
-    save_data_to_database(data, date)
+    save_data_to_database(data, datetime.strptime(date, "%d.%m.%Y").date())
 
 
 if __name__ == "__main__":
-    TIME = "12:35"
+    run_parser()
+    TIME = "12:30"
     schedule.every().day.at(TIME).do(run_parser)
 
     while True:

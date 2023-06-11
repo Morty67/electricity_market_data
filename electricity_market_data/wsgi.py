@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "electricity_market_data.settings")
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE", "electricity_market_data.settings"
+)
 
 application = get_wsgi_application()
